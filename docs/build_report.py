@@ -8,6 +8,7 @@ DST = r"C:\Users\Probook\NCIRL 2025-2026\NCIRL CEAI\CA 3\x25128442_Sydorenko_Nad
 
 
 from docx.oxml.ns import qn
+from docx.oxml import OxmlElement
 
 
 def set_para_text(p, text):
@@ -48,6 +49,35 @@ def add(text, style="Normal", bold=None):
 
 def add_heading(text):
     add(text, "Heading 1")
+
+def add_subheading(text):
+    add(text, "Heading 2")
+
+def _boxed(p):
+    pPr = p._p.get_or_add_pPr()
+    pBdr = OxmlElement("w:pBdr")
+    for edge in ("top", "left", "bottom", "right"):
+        e = OxmlElement("w:" + edge)
+        e.set(qn("w:val"), "single")
+        e.set(qn("w:sz"), "8")
+        e.set(qn("w:space"), "4")
+        e.set(qn("w:color"), "6C7CFF")
+        pBdr.append(e)
+    pPr.append(pBdr)
+    shd = OxmlElement("w:shd")
+    shd.set(qn("w:val"), "clear")
+    shd.set(qn("w:fill"), "EDEFFF")
+    pPr.append(shd)
+
+def add_fig(n, title, what):
+    p = doc.add_paragraph()
+    _boxed(p)
+    r = p.add_run("[ INSERT FIGURE " + str(n) + " HERE ]")
+    r.bold = True
+    p.add_run("\n" + title)
+    cap = doc.add_paragraph()
+    cr = cap.add_run("Figure " + str(n) + ". " + title + ". " + what)
+    cr.italic = True
 
 add_heading("Introduction")
 add(
@@ -186,9 +216,73 @@ add(
 add(
     "Cumulative output: a research brief \u2192 a concept \u2192 a deployed working prototype \u2192 a go-to-market "
     "plan \u2192 an executive summary. No single agent could have produced the deployed, marketed, governed "
-    "organisation alone. Screenshots of each handoff and live timestamps are attached as evidence alongside "
-    "this document; the live prototype is reachable at the GitHub Pages URL on the cover and the chat worker "
-    "at https://prism.n-sydorenko-mail.workers.dev."
+    "organisation alone. Each screenshot below shows the actual output of that stage as produced during the "
+    "run; the live prototype is reachable at the GitHub Pages URL on the cover, and the chat worker at "
+    "https://prism.n-sydorenko-mail.workers.dev."
+)
+
+add_subheading("3.1 Stage handoff evidence")
+add_fig(
+    1,
+    "Stage 1 — Research brief (Vera Vector)",
+    "output/free-run/01_researcher.md: live top-10 prices (CoinGecko), Fear & Greed index 34 (Alternative.me), "
+    "FX (ExchangeRate-API), the \u221261% portfolio observation, and the three opportunity hypotheses handed to "
+    "the Designer.",
+)
+add_fig(
+    2,
+    "Stage 2 — Solution concept (Maya M\u00f6bius)",
+    "output/free-run/02_designer.md: the 'Denis' persona built from the Researcher's \u221261% finding, the user "
+    "journey, the feature specification (F1-F5) and the constraints handed to the Maker.",
+)
+add_fig(
+    3,
+    "Stage 3 — Build report (Code Flint)",
+    "output/free-run/03_maker.md: tech stack and architecture, feature-to-build mapping, live data connections "
+    "(queried at runtime, no keys committed) and test evidence handed to the Communicator.",
+)
+add_fig(
+    4,
+    "Stage 4 — Go-to-market plan (Riley Rhetoric)",
+    "output/free-run/04_communicator.md: the 'See Clearly' campaign, three-channel rollout with drafted copy and "
+    "compliance guardrails handed to the Manager.",
+)
+add_fig(
+    5,
+    "Stage 5 — Executive summary (Atlas)",
+    "output/free-run/05_manager.md: alignment review, launch KPIs, GDPR / EU AI Act risk register and the "
+    "four-week operating plan.",
+)
+add_fig(
+    6,
+    "Live tool-call transcript",
+    "output/free-run/transcript.json: timestamped tool_calls per stage, proving every agent queried a live "
+    "external source at query time rather than using hardcoded values.",
+)
+
+add_subheading("3.2 The working prototype")
+add(
+    "The prototype is deployed on GitHub Pages and reachable without login at "
+    "https://nadiya-nci.github.io/prism/. Data refreshes on every load and every two minutes; the market table, "
+    "mood card and watchlist all carry fetch timestamps."
+)
+add_fig(
+    7,
+    "Live site, full page (top)",
+    "the hero, live price ticker, market mood and portfolio cards with visible fetch timestamps, and the live "
+    "market table with coin logos, ranks and sparklines.",
+)
+add_fig(
+    8,
+    "Live watchlist valuation",
+    "the 'Your holdings' card computing current value against cost basis live from the published Google Sheet "
+    "(approximately \u221261%).",
+)
+add_fig(
+    9,
+    "Live chat interaction",
+    "one grounded question and answer in the chat copilot, showing the research-support-not-advice boundary and "
+    "the live snapshot timestamp, served via the Cloudflare Worker.",
 )
 
 add_heading("4. Regulatory and Ethical Considerations")
@@ -213,6 +307,12 @@ add(
 )
 
 add_heading("References")
+add(
+    "AI usage and attribution. The five-agent pipeline was executed on a free opencode assistant model using "
+    "the system prompts reproduced in Section 2 (pipeline/agent_prompts.py). The live site chat is served by "
+    "Claude (claude-sonnet-4-5) through a Cloudflare Worker, keeping the API key server-side. All AI-generated "
+    "content was reviewed by the author; the Reflection in Section 5 is written by the author in their own words."
+)
 add(
     "European Parliament and Council. (2016) Regulation (EU) 2016/679 on the protection of natural persons with "
     "regard to the processing of personal data (General Data Protection Regulation). OJ L 119, 4.5.2016."
