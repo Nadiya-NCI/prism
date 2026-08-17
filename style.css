@@ -102,7 +102,13 @@ main { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1.5rem 2.5rem; }
 .card.neg::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .4rem; }
-.card-head h3 { font-size: .92rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
+.card-head h3, .table-head h3 {
+  text-transform: none; letter-spacing: -.01em; font-weight: 800;
+  background: linear-gradient(90deg, #ffffff, var(--accent1));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.card-head h3 { font-size: .98rem; }
+.table-head h3 { font-size: 1.18rem; margin-bottom: .2rem; }
 .badge {
   font-size: .68rem; padding: .16rem .55rem; border-radius: 999px;
   color: var(--accent1); border: 1px solid rgba(108, 124, 255, 0.4); background: rgba(108, 124, 255, 0.12);
@@ -113,7 +119,6 @@ main { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1.5rem 2.5rem; }
 .muted { color: var(--muted); font-size: .82rem; }
 .live-note { margin-top: .5rem; font-size: .74rem; color: var(--muted); }
 
-.table-head h3 { font-size: .95rem; margin-bottom: .15rem; }
 .table-wrap { overflow-x: auto; overflow-y: auto; max-height: 500px; margin-top: .8rem; }
 table { width: 100%; border-collapse: collapse; font-size: .87rem; }
 th {
