@@ -7,6 +7,13 @@ let marketData = [];
 let watchlist = [];
 let liveSnapshot = "";
 let sortState = { key: "market_cap_eur", dir: -1 };
+let filter = "";
+
+function rankMap() {
+  const m = new Map();
+  marketData.slice().sort((a, b) => (b.market_cap || 0) - (a.market_cap || 0)).forEach((c, i) => m.set(c.id, i + 1));
+  return m;
+}
 
 function fmtEUR(n) {
   return new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR", maximumFractionDigits: n >= 1 ? 2 : 4 }).format(n);
@@ -70,17 +77,20 @@ function sparkSVG(points) {
 }
 
 function marketRows() {
-  const data = marketData.slice().sort((a, b) => {
+  let data = marketData.slice();
+  const ranks = rankMap();
+  if (filter) data = data.filter((c) => (c.name + " " + c.symbol).toLowerCase().includes(filter));
+  data.sort((a, b) => {
     const av = a[sortState.key], bv = b[sortState.key];
     if (typeof av === "string") return av.localeCompare(bv) * sortState.dir;
     return ((av || 0) - (bv || 0)) * sortState.dir;
   });
-  return data.map((c, i) => {
+  return data.map((c) => {
     const ch = c.price_change_percentage_24h ?? 0;
     const ch7 = c.price_change_percentage_7d_in_currency ?? 0;
     const cls = (v) => v >= 0 ? "up" : "down";
-    return `<tr>
-      <td>${i + 1}</td>
+    return `<tr class="clickable" data-id="${c.id}" title="click for details">
+      <td>${ranks.get(c.id) ?? "—"}</td>
       <td><strong>${c.name}</strong> <span class="muted">${c.symbol.toUpperCase()}</span></td>
       <td>${sparkSVG(c.sparkline_in_7d && c.sparkline_in_7d.price)}</td>
       <td>€${fmtBig(c.current_price)}</td>
@@ -93,7 +103,13 @@ function marketRows() {
 }
 
 function renderTable() {
-  $("coin-rows").innerHTML = marketData.length ? marketRows() : '<tr><td colspan="8" class="muted">no live data</td></tr>';
+  let html;
+  if (!marketData.length) html = '<tr><td colspan="8" class="muted">no live data</td></tr>';
+  else {
+    const rows = marketRows();
+    html = rows || (filter ? `<tr><td colspan="8" class="muted">no coins match "${filter}"</td></tr>` : '<tr><td colspan="8" class="muted">no live data</td></tr>');
+  }
+  $("coin-rows").innerHTML = html;
 }
 
 function renderMood() {
@@ -159,6 +175,68 @@ function buildSnapshot() {
   $("snapshot-at").textContent = new Date().toUTCString();
 }
 
+async function fetchNews() {
+  const list = $("news-list");
+  try {
+    const res = await fetch(WORKER_URL + "/news", { cache: "no-store" });
+    if (!res.ok) throw new Error("news HTTP " + res.status);
+    const data = await res.json();
+    if (!data.items || !data.items.length) throw new Error("empty feed");
+    list.innerHTML = "";
+    data.items.forEach((it) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.textContent = it.title;
+      a.href = it.link;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      li.appendChild(a);
+      if (it.date) {
+        const d = new Date(it.date);
+        if (!isNaN(d)) {
+          const s = document.createElement("span");
+          s.className = "news-date muted";
+          s.textContent = d.toLocaleDateString("en-IE", { day: "numeric", month: "short" });
+          li.appendChild(s);
+        }
+      }
+      list.appendChild(li);
+    });
+  } catch (err) {
+    list.innerHTML = '<li class="muted">Headlines temporarily unavailable.</li>';
+  }
+}
+
+function openDetail(id) {
+  const c = marketData.find((x) => x.id === id);
+  if (!c) return;
+  const ch = c.price_change_percentage_24h ?? 0;
+  const ch7 = c.price_change_percentage_7d_in_currency ?? 0;
+  const eta = "€" + (c.high_24h != null ? fmtBig(c.high_24h) : "—");
+  const etb = "€" + (c.low_24h != null ? fmtBig(c.low_24h) : "—");
+  $("detail-title").textContent = `${c.name} (${c.symbol.toUpperCase()})`;
+  const big = sparkSVG(c.sparkline_in_7d && c.sparkline_in_7d.price).replace('width="66"', 'width="360"').replace('height="22"', 'height="96"');
+  $("detail-body").innerHTML = `
+    <div class="detail-grid">
+      <div class="d-item"><span class="muted">Live price (EUR)</span><b>€${fmtBig(c.current_price)}</b></div>
+      <div class="d-item"><span class="muted">Market cap</span><b>€${fmtBig(c.market_cap)}</b></div>
+      <div class="d-item"><span class="muted">24h</span><b class="${ch >= 0 ? "up" : "down"}">${pct(ch)}</b></div>
+      <div class="d-item"><span class="muted">7d</span><b class="${ch7 >= 0 ? "up" : "down"}">${pct(ch7)}</b></div>
+      <div class="d-item"><span class="muted">24h volume</span><b>€${fmtBig(c.total_volume)}</b></div>
+      <div class="d-item"><span class="muted">24h high</span><b>${eta}</b></div>
+      <div class="d-item"><span class="muted">24h low</span><b>${etb}</b></div>
+    </div>
+    <div class="detail-spark">${big || '<p class="muted">7-day trend unavailable</p>'}</div>
+  `;
+  $("coin-detail").classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+}
+
+function closeDetail() {
+  $("coin-detail").classList.add("hidden");
+  document.body.style.overflow = "";
+}
+
 async function refreshData() {
   try {
     const cg = await fetchCoinGecko();
@@ -189,6 +267,7 @@ async function refreshData() {
   renderMood();
   renderWatchlist();
   buildSnapshot();
+  fetchNews();
 }
 
 function addMsg(role, text) {
@@ -235,6 +314,32 @@ document.querySelectorAll("th[data-sort]").forEach((th) => {
     if (sortState.key === key) { sortState.dir *= -1; }
     else { sortState.key = key; sortState.dir = key === "name" ? 1 : -1; }
     renderTable();
+  });
+});
+
+$("coin-filter").addEventListener("input", (e) => {
+  filter = e.target.value.trim().toLowerCase();
+  renderTable();
+});
+
+$("coin-rows").addEventListener("click", (e) => {
+  const tr = e.target.closest("tr[data-id]");
+  if (tr) openDetail(tr.dataset.id);
+});
+
+$("close-detail").addEventListener("click", closeDetail);
+$("coin-detail").addEventListener("click", (e) => {
+  if (e.target === $("coin-detail") || e.target.closest(".close")) closeDetail();
+});
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDetail(); });
+
+$("refresh-btn").addEventListener("click", () => {
+  const b = $("refresh-btn");
+  const orig = b.textContent;
+  b.textContent = "Refreshing…";
+  refreshData().then(() => {
+    b.textContent = "✓ Updated " + now();
+    setTimeout(() => { b.textContent = orig; }, 3000);
   });
 });
 

@@ -19,6 +19,7 @@
     <span id="coingecko-status" class="pill">market: …</span>
     <span id="sheet-status" class="pill">watchlist: …</span>
     <span id="client-time" class="pill">local: —</span>
+    <button id="refresh-btn" class="btn ghost">Refresh data</button>
   </div>
 </header>
 
@@ -51,7 +52,10 @@
   <section class="card glass">
     <div class="table-head">
       <h3>Live market table</h3>
-      <p class="muted">top 10 by market cap · click column headers to sort · updated in real time on every load</p>
+      <div class="table-tools">
+        <input id="coin-filter" type="text" placeholder="Search coins…" autocomplete="off">
+        <p class="muted">top 10 by market cap · click column headers to sort · click a row for details</p>
+      </div>
     </div>
     <div class="table-wrap">
       <table>
@@ -102,6 +106,16 @@
 
   <section class="card glass">
     <div class="table-head">
+      <h3>Latest crypto news</h3>
+      <p class="muted">live headlines via the Prism research copilot · refreshed with every update</p>
+    </div>
+    <ul id="news-list" class="news-list">
+      <li class="muted">loading headlines…</li>
+    </ul>
+  </section>
+
+  <section class="card glass">
+    <div class="table-head">
       <h3>Chat with the research copilot</h3>
       <p class="muted">grounded in the live snapshot at <span id="snapshot-at" class="muted">—</span> · research support, never advice</p>
     </div>
@@ -115,6 +129,16 @@
     <p class="disclaimer">Prism is a demonstration prototype. Output is generated research, not financial advice.</p>
   </section>
 </main>
+
+<div id="coin-detail" class="overlay hidden">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="detail-title">—</h3>
+      <button id="close-detail" class="close" aria-label="Close">×</button>
+    </div>
+    <div id="detail-body" class="detail-body"></div>
+  </div>
+</div>
 
 <footer>
   <p>Prism is an AI-assisted research tool. You are chatting with an AI copilot, not a human — it can make mistakes, so verify anything critical before acting.</p>

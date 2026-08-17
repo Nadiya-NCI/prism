@@ -1,6 +1,6 @@
 const CORS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
@@ -10,12 +10,61 @@ const SYSTEM_BASE =
   "adviser. If the user asks for financial advice, say you only provide research support. " +
   "Answer in plain text, max 180 words.\n\n";
 
+const NEWS_FEEDS = [
+  "https://cointelegraph.com/rss",
+  "https://www.coindesk.com/arc/outboundfeeds/rss/",
+];
+
+function parseRss(xml) {
+  const out = [];
+  const blocks = xml.match(/<item>[\s\S]*?<\/item>/g) || [];
+  for (const blk of blocks) {
+    const grab = (tag) => {
+      const m = blk.match(new RegExp(`<${tag}>(?:<!\\[CDATA\\[([\\s\\S]*?)\\]\\]>|([\\s\\S]*?))</${tag}>`, "i"));
+      return m ? (m[1] || m[2] || "").trim() : "";
+    };
+    const title = grab("title");
+    const link = grab("link");
+    const date = grab("pubDate");
+    if (title && link) out.push({ title, link, date });
+  }
+  return out.slice(0, 6);
+}
+
+async function handleNews() {
+  let lastErr = null;
+  for (const feed of NEWS_FEEDS) {
+    try {
+      const r = await fetch(feed, { headers: { "User-Agent": "Mozilla/5.0 (compatible; PrismAgent/1.0)" } });
+      const xml = await r.text();
+      const items = parseRss(xml);
+      if (items.length) {
+        return new Response(
+          JSON.stringify({ source: new URL(feed).hostname, fetched_at: new Date().toISOString(), items }),
+          { headers: { ...CORS, "Content-Type": "application/json" } }
+        );
+      }
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  return new Response(JSON.stringify({ error: String(lastErr || "no feed available") }), {
+    status: 502,
+    headers: { ...CORS, "Content-Type": "application/json" },
+  });
+}
+
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: CORS });
     }
     const url = new URL(request.url);
+
+    if (request.method === "GET" && url.pathname === "/news") {
+      return handleNews();
+    }
+
     if (request.method !== "POST" || url.pathname !== "/chat") {
       return new Response("not found", { status: 404, headers: CORS });
     }
