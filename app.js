@@ -208,13 +208,17 @@ $("chat-form").addEventListener("submit", async (e) => {
   if (!marketData.length) await refreshData();
   addMsg("ai", "Thinking…");
   try {
-    const res = await fetch(WORKER_URL, {
+    const res = await fetch(WORKER_URL + "/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: q, snapshot: liveSnapshot })
     });
+    if (!res.ok) {
+      let msg = "Worker HTTP " + res.status;
+      try { const e = await res.json(); msg = e.error || msg; } catch (_) {}
+      throw new Error(msg);
+    }
     const data = await res.json();
-    if (!res.ok) throw new Error(data.error || "Worker HTTP " + res.status);
     const last = $("chat-log").lastChild;
     if (last && last.textContent === "Thinking…") last.remove();
     addMsg("ai", data.text || "[empty response]");
