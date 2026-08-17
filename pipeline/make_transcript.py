@@ -3,7 +3,7 @@ import pathlib
 
 out = pathlib.Path("output/free-run")
 stages = [
-    ("Researcher", "Vera Vector", ["get_live_market", "get_market_sentiment", "get_exchange_rate"], "01_researcher.md"),
+    ("Researcher", "Vera Vector", ["get_live_market", "get_market_sentiment", "get_exchange_rate", "get_portfolio_sheet"], "01_researcher.md"),
     ("Designer", "Maya Mobius", ["get_portfolio_sheet"], "02_designer.md"),
     ("Maker", "Code Flint", ["get_portfolio_sheet", "get_market_sentiment"], "03_maker.md"),
     ("Communicator", "Riley Rhetoric", ["get_market_sentiment"], "04_communicator.md"),

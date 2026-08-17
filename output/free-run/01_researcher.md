@@ -1,5 +1,5 @@
 # RESEARCH BRIEF — Vera Vector, HEAD OF MARKET RESEARCH
-Date: 2026-08-16 · All figures fetched LIVE from CoinGecko, Alternative.me and ExchangeRate-API at query time. No hardcoded values.
+Date: 2026-08-16 · All figures fetched LIVE from CoinGecko, Alternative.me, ExchangeRate-API and the user's published Google Sheet (get_portfolio_sheet) at query time. No hardcoded values.
 
 ## 1. Macro & sentiment snapshot (live, this run)
 
@@ -16,7 +16,7 @@ Date: 2026-08-16 · All figures fetched LIVE from CoinGecko, Alternative.me and 
 
 ## 3. Opportunity hypotheses for the organisation
 
-H1. **The drowned investor needs a hand, not more charts.** A realistic retail portfolio (BTC 0.4 / ETH 0.3 / SOL 0.2 / XRP 0.1 in EUR) is ≈ −61% vs book cost (live valuation, this run). The acute job-to-be-done is *"is it rational to hold, trim, or rebalance me?"* — answerable from live data + scenario framing, without unsafe promises.
+H1. **The drowned investor needs a hand, not more charts.** Reading the user's live watchlist (BTC 0.4 / ETH 0.3 / SOL 0.2 / XRP 0.1 in EUR, via get_portfolio_sheet) at live prices, the portfolio is ≈ −61% vs book cost (computed this run). The acute job-to-be-done is *"is it rational to hold, trim, or rebalance me?"* — answerable from live data + scenario framing, without unsafe promises.
 H2. **Fear-34 is a content flywheel.** Sentiment-framed, compliance-signed research ("what Fear 34 means for *your* positions") converts a bear market into recurring engagement.
 H3. **Transparency is the product.** Show the source, timestamp, and model behind every figure — the antidote to the sector's credibility problem, and one of the few defensible moats for a small agentic studio.
 

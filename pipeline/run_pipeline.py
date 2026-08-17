@@ -11,7 +11,7 @@ from tools import LIVE_TOOLS
 
 MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-5")
 TOOLS_PER_AGENT = {
-    "Researcher": ["get_live_market", "get_market_sentiment", "get_exchange_rate"],
+    "Researcher": ["get_live_market", "get_market_sentiment", "get_exchange_rate", "get_portfolio_sheet"],
     "Designer": ["get_portfolio_sheet"],
     "Maker": ["get_portfolio_sheet", "get_market_sentiment"],
     "Communicator": ["get_market_sentiment"],

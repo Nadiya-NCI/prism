@@ -1,0 +1,56 @@
+{
+  "organisation": "Prism",
+  "artefact": "product-specification",
+  "version": "0.1.0",
+  "designed_by": "Maya Mobius (Designer stage)",
+  "built_by": "Code Flint (Maker stage)",
+  "live_at": "https://nadiya-nci.github.io/prism/",
+  "integrity_policy": {
+    "advice_boundary": "research support only, never financial advice",
+    "live_data_only": true,
+    "cite_source_and_time": true,
+    "no_keys_committed": true
+  },
+  "features": [
+    {
+      "id": "F1",
+      "name": "Live market table",
+      "source": "CoinGecko /coins/markets (EUR, top-10)",
+      "ui_element": "market table + ticker",
+      "refresh": "on load and every 120s",
+      "status": "shipped"
+    },
+    {
+      "id": "F2",
+      "name": "Live watchlist valuation",
+      "source": "published Google Sheet CSV (runtime fetch)",
+      "ui_element": "holdings card with cost-basis delta",
+      "refresh": "on load and every 120s",
+      "status": "shipped"
+    },
+    {
+      "id": "F3",
+      "name": "Mood / context chip",
+      "source": "Alternative.me Fear & Greed",
+      "ui_element": "mood card with plain-language framing",
+      "refresh": "on load and every 120s",
+      "status": "shipped"
+    },
+    {
+      "id": "F4",
+      "name": "Copilot chat",
+      "source": "Cloudflare Worker -> Anthropic Messages API (key server-side)",
+      "ui_element": "chat card grounded in the live snapshot",
+      "refresh": "per question",
+      "status": "shipped"
+    },
+    {
+      "id": "F5",
+      "name": "Integrity footer",
+      "source": "static manifest",
+      "ui_element": "footer naming the 5-agent pipeline, live-data statement, this spec",
+      "refresh": "n/a",
+      "status": "shipped"
+    }
+  ]
+}

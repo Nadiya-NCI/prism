@@ -1,6 +1,7 @@
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTzByO3olSeexgzkXz8XC6U9TYaRRi98NK4SdCBRLuorHIBwu6ZXTD0DOf0C9ZiACrck2r4p9tePX8s/pub?output=csv";
 const COINGECKO_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=10&page=1&sparkline=true&price_change_percentage=24h,7d";
 const WORKER_URL = "https://prism.n-sydorenko-mail.workers.dev";
+const PRODUCT_SPEC_URL = "product_spec.json";
 
 const $ = (id) => document.getElementById(id);
 let marketData = [];
@@ -320,6 +321,19 @@ async function refreshData() {
   fetchNews();
 }
 
+async function renderProductSpec() {
+  const el = $("product-spec");
+  try {
+    const res = await fetch(PRODUCT_SPEC_URL, { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const spec = await res.json();
+    const ids = Array.isArray(spec.features) ? spec.features.map((f) => f.id).join(", ") : "";
+    el.textContent = `Built to the Maker's product_spec.json (${ids}) · live data only, no keys committed`;
+  } catch (e) {
+    el.textContent = "Built to the Maker's product_spec.json (F1–F5)";
+  }
+}
+
 function addMsg(role, text) {
   const d = document.createElement("div");
   d.className = "msg " + role;
@@ -406,3 +420,4 @@ $("client-time").textContent = "local: " + now();
 setInterval(() => { $("client-time").textContent = "local: " + now(); }, 30000);
 refreshData();
 setInterval(refreshData, 120000);
+renderProductSpec();

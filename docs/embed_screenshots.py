@@ -5,7 +5,7 @@ import docx
 from docx.oxml.ns import qn
 from docx.shared import Cm
 
-DOC = r"C:\Users\Probook\NCIRL 2025-2026\NCIRL CEAI\CA 3\x25128442_Sydorenko_Nadiya_CEAI_CA3.docx"
+DOC = r"C:\Users\Probook\NCIRL 2025-2026\NCIRL CEAI\CA 3\x25128442_PGDAIBUS_Sydorenko_Nadiya_CEAI_CA3.docx"
 SHOTS = r"C:\Users\Probook\NCIRL 2025-2026\NCIRL CEAI\CA 3\screenshots"
 WIDTH = Cm(15)
 

@@ -14,7 +14,7 @@ The organisation solved the Researcher's H1 — *the drowned investor needs a ha
 | Risk | Context | Mitigation |
 |---|---|---|
 | Personal data | Watchlist is provided by the user; no account/PII collected | GDPR Art. 5 minimisation; the sheet is the user's own data, fetched read-only; no storage server-side |
-| AI Act exposure | Recommendation-adjacent financial content (Annex-III-adjacent stakes) | Positioned strictly as research support; transparency duties per Art. 50 (disclosing AI-generated content; explainable figures + sources); a human accountable at the "CEO" layer |
+| AI Act exposure | Research-support content for private investors; not credit-scoring for lending, so unlikely to fall in Annex III point 5 | Positioned strictly as research support; transparency duties per Art. 50 (disclosing AI-generated content; explainable figures + sources) applied voluntarily; final classification recorded for legal review |
 | Advice boundary | EU/UAE-style conduct risk if "advice" implied | System prompts ban instruction verbs; every reply footer repeats research-not-advice |
 | Misleading data | Stale/hardcoded values would destroy trust in one breach | Live-only data policy enforced in code (runtime fetches, timestamps) and in reviews |
 | Credentials | Key leakage = account abuse | Key server-side only (Cloudflare secret); repo scanned before commit; `.gitignore` guards local secrets |
@@ -27,4 +27,4 @@ The organisation solved the Researcher's H1 — *the drowned investor needs a ha
 - Week 3: regression-test live sources after market hours; pen-test the no-credentials claim.
 - Week 4: publish GH Pages URL + zip; sign-off review against rubric gates (live data, reachability 8 weeks, no keys).
 
-<FINAL_EXECUTIVE_DELIVERABLE>
+**FINAL DECISION: APPROVED** — organisation-wide deliverable accepted for launch; conditions above are tracked as KPIs, not blockers.

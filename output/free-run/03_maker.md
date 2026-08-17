@@ -13,11 +13,12 @@ Input: Maya's concept (F1–F5, constraints). Build is DONE and verified against
 | F2 Watchlist valuation | `fetchWatchlist()` → published‑CSV → tolerant CSV parser → schema-detect header row → live value vs cost‑basis delta |
 | F3 Mood chip | Alternat.me sentiment → classification + plain-language framing |
 | F4 Copilot chat | POST `/chat` to worker with `{message, snapshot}`; worker injects snapshot into system prompt; shows "Thinking…", surfaces worker errors in-UI |
-| F5 Integrity footer | Static footer naming the 5‑agent pipeline + live-data statement |
+| F5 Integrity footer | Static footer naming the 5‑agent pipeline + live-data statement; renders its feature list live from the committed `product_spec.json` (fetched at runtime) |
 
 ## 3. Live data connections (queried at query time — verified in code)
 - `app.js`: `COINGECKO_URL` and `SHEET_CSV_URL` are fetched inside `refreshData()` on every load/reload/2-min tick. 
 - `tools.py` (pipeline): `get_live_market`, `get_market_sentiment`, `get_exchange_rate`, `get_portfolio_sheet` — the same live sources the agents query.
+- **Artefact:** `product_spec.json` (the F1–F5 spec from Maya's concept) is committed at the repo root; the deployed site fetches it at runtime (`renderProductSpec()`) so the F5 footer is rendered from the spec, not hardcoded.
 - Zero hardcoded prices/rows anywhere. The only "constant" values are connection URLs and env bindings, not data.
 
 ## 4. Handoff mechanics
