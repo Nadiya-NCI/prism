@@ -90,16 +90,26 @@ function marketRows() {
     const ch7 = c.price_change_percentage_7d_in_currency ?? 0;
     const cls = (v) => v >= 0 ? "up" : "down";
     return `<tr class="clickable" data-id="${c.id}" title="click for details">
-      <td>${ranks.get(c.id) ?? "—"}</td>
-      <td><strong>${c.name}</strong> <span class="muted">${c.symbol.toUpperCase()}</span></td>
+      <td><span class="rank">${ranks.get(c.id) ?? "—"}</span></td>
+      <td><span class="coin-name"><img class="coin-logo" src="${c.image || ""}" alt="" loading="lazy"><strong>${c.name}</strong> <span class="muted">${c.symbol.toUpperCase()}</span></span></td>
       <td>${sparkSVG(c.sparkline_in_7d && c.sparkline_in_7d.price)}</td>
-      <td>€${fmtBig(c.current_price)}</td>
+      <td class="price">€${fmtBig(c.current_price)}</td>
       <td class="${cls(ch)}">${pct(ch)}</td>
       <td class="${cls(ch7)}">${pct(ch7)}</td>
       <td>€${fmtBig(c.market_cap)}</td>
       <td>€${fmtBig(c.total_volume)}</td>
     </tr>`;
   }).join("");
+}
+
+function buildTicker() {
+  const track = $("ticker-track");
+  if (!track) return;
+  const seg = marketData.map((c) => {
+    const ch = c.price_change_percentage_24h ?? 0;
+    return `<span class="ticker-item"><b>${c.symbol.toUpperCase()}</b> €${fmtBig(c.current_price)} <span class="${ch >= 0 ? "up" : "down"}">${pct(ch)}</span></span>`;
+  }).join("");
+  track.innerHTML = seg + seg;
 }
 
 function renderTable() {
@@ -110,6 +120,25 @@ function renderTable() {
     html = rows || (filter ? `<tr><td colspan="8" class="muted">no coins match "${filter}"</td></tr>` : '<tr><td colspan="8" class="muted">no live data</td></tr>');
   }
   $("coin-rows").innerHTML = html;
+  document.querySelectorAll("th[data-sort]").forEach((th) => {
+    th.classList.remove("sort-up", "sort-down");
+    if (th.dataset.sort === sortState.key) th.classList.add(sortState.dir === 1 ? "sort-up" : "sort-down");
+  });
+  buildTicker();
+}
+
+function animateNum(el, to, fmt) {
+  const from = parseFloat(String(el.textContent).replace(/[^0-9.\-]/g, "")) || 0;
+  if (!isFinite(to)) { el.textContent = fmt(to); return; }
+  const start = performance.now();
+  const dur = 700;
+  const tick = (t) => {
+    const p = Math.min((t - start) / dur, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(from + (to - from) * eased);
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
 }
 
 function renderMood() {
@@ -117,7 +146,8 @@ function renderMood() {
   const avg = chs.reduce((a, b) => a + b, 0) / (chs.length || 1);
   const el = $("mood");
   el.className = "big-number " + (avg >= 0 ? "up" : "down");
-  el.textContent = (avg >= 0 ? "+" : "") + avg.toFixed(2) + "%";
+  $("mood-card").className = "card glass " + (avg >= 0 ? "pos" : "neg");
+  animateNum(el, avg, (v) => (v >= 0 ? "+" : "") + v.toFixed(2) + "%");
   $("mood-sub").textContent = avg >= 0 ? "risk-on bias across the top 10 today" : "risk-off bias across the top 10 today";
   $("mood-fetched").textContent = now();
 }
@@ -139,8 +169,8 @@ function renderWatchlist() {
       <td><strong>${w.asset}</strong> <span class="muted">${String(w.symbol).toUpperCase()}</span></td>
       <td>${(alloc * 100).toFixed(0)}%</td>
       <td>${price != null ? fmtEUR(price) : '<span class="muted">n/a</span>'}</td>
-      <td>€${fmtEUR(value)}</td>
-      <td>€${fmtEUR(basis)}</td>
+      <td>${fmtEUR(value)}</td>
+      <td>${fmtEUR(basis)}</td>
       <td class="${dCls}">${delta == null ? "—" : pct(delta)}</td>
       <td>${w.note || ""}</td>
     </tr>`;
@@ -153,14 +183,15 @@ function renderWatchlist() {
   }, 0);
   const totalDelta = totalCost > 0 ? ((totalValue - totalCost) / totalCost) * 100 : 0;
   $("watchlist-rows").innerHTML = rows || '<tr><td colspan="7" class="muted">no rows in the sheet</td></tr>';
-  $("portfolio-value").textContent = "€" + fmtEUR(totalValue);
-  $("portfolio-cost").textContent = "€" + fmtEUR(totalCost);
+  animateNum($("portfolio-value"), totalValue, fmtEUR);
+  $("portfolio-cost").textContent = fmtEUR(totalCost);
   const g = $("portfolio-gain");
   g.className = totalDelta >= 0 ? "up" : "down";
-  g.textContent = pct(totalDelta);
+  animateNum(g, totalDelta, pct);
   const d = $("portfolio-delta");
   d.className = "big-number " + (totalDelta >= 0 ? "up" : "down");
-  d.textContent = pct(totalDelta);
+  $("portfolio-card").className = "card glass " + (totalDelta >= 0 ? "pos" : "neg");
+  animateNum(d, totalDelta, pct);
   $("sheet-fetched").textContent = now();
 }
 
@@ -183,23 +214,33 @@ async function fetchNews() {
     const data = await res.json();
     if (!data.items || !data.items.length) throw new Error("empty feed");
     list.innerHTML = "";
-    data.items.forEach((it) => {
+    data.items.forEach((it, i) => {
       const li = document.createElement("li");
+      if (i === 0) li.className = "featured";
       const a = document.createElement("a");
       a.textContent = it.title;
       a.href = it.link;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
       li.appendChild(a);
+      const meta = document.createElement("span");
+      meta.className = "news-meta";
+      if (data.source) {
+        const s = document.createElement("span");
+        s.className = "src muted";
+        s.textContent = data.source;
+        meta.appendChild(s);
+      }
       if (it.date) {
         const d = new Date(it.date);
         if (!isNaN(d)) {
           const s = document.createElement("span");
           s.className = "news-date muted";
           s.textContent = d.toLocaleDateString("en-IE", { day: "numeric", month: "short" });
-          li.appendChild(s);
+          meta.appendChild(s);
         }
       }
+      li.appendChild(meta);
       list.appendChild(li);
     });
   } catch (err) {

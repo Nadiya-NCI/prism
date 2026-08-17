@@ -79,14 +79,28 @@ main { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1.5rem 2.5rem; }
 .grid.top { grid-template-columns: 1fr 1fr; }
 @media (max-width: 820px) { .grid.top { grid-template-columns: 1fr; } }
 .card {
-  background: rgba(255, 255, 255, 0.03);
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.2rem 1.4rem;
   margin-bottom: 1rem;
-  backdrop-filter: blur(8px);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
   box-shadow: var(--shadow);
+  animation: rise .5s ease-out both;
 }
+.card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(108, 124, 255, 0.5), rgba(158, 91, 255, 0.5), transparent);
+  pointer-events: none;
+}
+.card.pos::after, .card.neg::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; opacity: .55; pointer-events: none;
+}
+.card.pos::after { background: linear-gradient(90deg, transparent, var(--grn), transparent); }
+.card.neg::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .4rem; }
 .card-head h3 { font-size: .92rem; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .06em; }
 .badge {
@@ -100,17 +114,22 @@ main { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1.5rem 2.5rem; }
 .live-note { margin-top: .5rem; font-size: .74rem; color: var(--muted); }
 
 .table-head h3 { font-size: .95rem; margin-bottom: .15rem; }
-.table-wrap { overflow-x: auto; margin-top: .8rem; }
+.table-wrap { overflow-x: auto; overflow-y: auto; max-height: 500px; margin-top: .8rem; }
 table { width: 100%; border-collapse: collapse; font-size: .87rem; }
 th {
+  position: sticky; top: 0; z-index: 1;
   text-align: left; color: var(--muted); font-weight: 600; font-size: .72rem;
   text-transform: uppercase; letter-spacing: .05em;
   padding: .55rem .65rem; border-bottom: 1px solid var(--line);
+  background: var(--panel);
   white-space: nowrap; cursor: default; user-select: none;
 }
 th[data-sort] { cursor: pointer; }
 th[data-sort]:hover { color: var(--text); }
-td { padding: .6rem .65rem; border-bottom: 1px solid rgba(255,255,255,0.05); white-space: nowrap; }
+th.sort-up, th.sort-down { color: var(--text); }
+th.sort-up::after { content: " ▲"; font-size: .65rem; color: var(--accent1); }
+th.sort-down::after { content: " ▼"; font-size: .65rem; color: var(--accent1); }
+td { padding: .6rem .65rem; border-bottom: 1px solid rgba(255,255,255,0.05); white-space: nowrap; font-variant-numeric: tabular-nums; }
 tr:hover td { background: rgba(255, 255, 255, 0.025); }
 tfoot td { font-weight: 700; border-top: 1px solid var(--line); border-bottom: none; }
 .up { color: var(--grn); }
@@ -219,3 +238,65 @@ tr.clickable:hover td { background: rgba(108, 124, 255, 0.07); }
 ::-webkit-scrollbar { width: 10px; height: 8px; }
 ::-webkit-scrollbar-thumb { background: var(--panel2); border-radius: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
+
+.rank {
+  display: inline-grid; place-items: center;
+  min-width: 26px; height: 26px; padding: 0 4px;
+  border-radius: 8px; font-size: .72rem; font-weight: 700;
+  color: var(--accent1); background: rgba(108, 124, 255, 0.1);
+  border: 1px solid rgba(108, 124, 255, 0.3);
+}
+.coin-name { display: inline-flex; align-items: center; gap: .5rem; }
+.coin-logo { width: 22px; height: 22px; border-radius: 50%; background: var(--panel2); flex: none; }
+.price { font-weight: 600; }
+tr.clickable { cursor: pointer; }
+tr.clickable:hover td { background: rgba(108, 124, 255, 0.08); }
+
+.ticker {
+  margin-top: 1.4rem; overflow: hidden;
+  border: 1px solid var(--line); border-radius: 12px;
+  background: rgba(10, 13, 23, 0.6);
+}
+.ticker-track {
+  display: inline-flex; gap: 2.8rem; align-items: center;
+  white-space: nowrap; padding: .5rem 1.2rem; font-size: .8rem;
+  animation: marquee 45s linear infinite; will-change: transform; min-width: 100%;
+}
+.ticker:hover .ticker-track { animation-play-state: paused; }
+.ticker-item { display: inline-flex; gap: .45rem; align-items: baseline; color: var(--muted); }
+.ticker-item b { color: var(--text); font-weight: 600; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.big-number { font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+
+.news-list li {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  font-size: .88rem; padding: .5rem .4rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px; transition: background .15s ease;
+}
+.news-list li:hover { background: rgba(255, 255, 255, 0.03); }
+.news-list li.featured a { font-size: 1.02rem; font-weight: 700; }
+.news-list a { color: var(--text); text-decoration: none; }
+.news-list li a::after { content: " ↗"; opacity: 0; transition: opacity .15s ease; }
+.news-list li:hover a { color: var(--accent1); }
+.news-list li:hover a::after { opacity: .75; }
+.news-meta { display: inline-flex; align-items: baseline; gap: .55rem; white-space: nowrap; flex: none; }
+.src { font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; color: var(--accent1); }
+.news-date { font-size: .74rem; }
+
+button, a, input { transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease; }
+.btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.btn.ghost:hover { transform: none; }
+:focus-visible { outline: 2px solid rgba(108, 124, 255, 0.8); outline-offset: 2px; }
+::selection { background: rgba(108, 124, 255, 0.35); }
+
+main > section:nth-of-type(2) { animation-delay: .05s; }
+main > section:nth-of-type(3) { animation-delay: .1s; }
+main > section:nth-of-type(4) { animation-delay: .15s; }
+main > section:nth-of-type(5) { animation-delay: .2s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  main .card { animation: none; }
+  .card.pos::after, .card.neg::after { display: none; }
+}
