@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prism — Agentic Crypto Research Copilot</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◆</span>
+    <div>
+      <h1>Prism</h1>
+      <p class="tag">Agentic crypto research copilot — designed, built and communicated by a five-agent organisation</p>
+    </div>
+  </div>
+  <div class="status">
+    <span id="coingecko-status" class="pill">data: …</span>
+    <span id="sheet-status" class="pill">watchlist: …</span>
+    <span id="client-time" class="pill">local: —</span>
+  </div>
+</header>
+
+<main>
+  <section class="grid market">
+    <div class="card" id="mood-card">
+      <h2>Market mood</h2>
+      <div id="mood" class="big-number">—</div>
+      <p id="mood-sub" class="muted">derived from live 24h moves</p>
+      <p class="live-note">Live snapshot fetched <span id="mood-fetched" class="muted">now</span> from CoinGecko</p>
+    </div>
+    <div class="card" id="portfolio-card">
+      <h2>Your live portfolio (from watchlist)</h2>
+      <div id="portfolio-gain" class="big-number">—</div>
+      <p id="portfolio-sub" class="muted">current value vs cost basis (EUR)</p>
+      <p class="live-note">Watchlist read live from Google Sheets at <span id="sheet-fetched" class="muted">—</span></p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Live market table</h2>
+    <p class="muted">Top coins by market cap, fetched from CoinGecko at query time — refreshed on every load.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Coin</th><th>Price (EUR)</th><th>24h %</th><th>Market cap</th><th>Volume (24h)</th></tr>
+        </thead>
+        <tbody id="coin-rows">
+          <tr><td colspan="6" class="muted">loading live data…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Chat with the research copilot</h2>
+    <p class="muted">Powered by Claude via a Cloudflare Worker — the API key lives in the serverless secret store, never in this page or the repository. It sees the live market table + your watchlist above before answering. Research support, never financial advice.</p>
+    <div id="chat-log" class="chat-log">
+      <div class="msg ai">Hello from Prism. Ask me anything about the live market table or your watchlist — e.g. "should I trim my ETH?"</div>
+    </div>
+    <form id="chat-form">
+      <input id="chat-input" type="text" placeholder="Ask the copilot…" autocomplete="off">
+      <button class="btn" type="submit">Send</button>
+    </form>
+    <p class="disclaimer">Prism is a demonstration prototype. Output is generated research, not financial advice.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Agentic organisation CA3 · Pipeline: Researcher → Designer → Maker → Communicator → Manager · All external data fetched live (CoinGecko & Google Sheets), no keys committed.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

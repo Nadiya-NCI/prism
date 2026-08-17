@@ -1,0 +1,8 @@
+name = "prism"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+[vars]
+MODEL = "claude-sonnet-4-5"
+
+# package.json present but unused; the worker has no dependencies
