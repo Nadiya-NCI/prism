@@ -216,8 +216,8 @@ add(
 add(
     "Cumulative output: a research brief \u2192 a concept \u2192 a deployed working prototype \u2192 a go-to-market "
     "plan \u2192 an executive summary. No single agent could have produced the deployed, marketed, governed "
-    "organisation alone. Each screenshot below shows the actual output of that stage as produced during the "
-    "run; the live prototype is reachable at the GitHub Pages URL on the cover, and the chat worker at "
+    "organisation alone. Each screenshot below shows that stage's actual output; the live prototype is at the "
+    "GitHub Pages URL on the cover, and the chat worker at "
     "https://prism.n-sydorenko-mail.workers.dev."
 )
 
@@ -262,9 +262,8 @@ add_fig(
 
 add_subheading("3.2 The working prototype")
 add(
-    "The prototype is deployed on GitHub Pages and reachable without login at "
-    "https://nadiya-nci.github.io/prism/. Data refreshes on every load and every two minutes; the market table, "
-    "mood card and watchlist all carry fetch timestamps."
+    "The prototype is live on GitHub Pages at https://nadiya-nci.github.io/prism/ (no login). Data refreshes "
+    "on load and every two minutes, and every card carries fetch timestamps."
 )
 add_fig(
     7,
@@ -300,10 +299,28 @@ add(
 
 add_heading("5. Reflection")
 add(
-    "[USER TO WRITE IN OWN WORDS — ~300 words, replace this paragraph. Suggested coverage: what worked, what "
-    "didn't, what surprised you, what you learned about multi-agent collaboration, what you would improve with "
-    "more time. Evidence: describe at least one iteration (e.g. switching the chat to a Cloudflare worker to "
-    "keep the key server-side, or a second pipeline run whose numbers changed because the market moved).]"
+    "Overall, this project worked better than I expected. The clearest success was that the pipeline behaved "
+    "like an actual organisation: the Researcher identified the opportunity from live data, and that finding "
+    "survived the whole chain. When the Manager re-queried CoinGecko, the sheet and FX at the final stage, it "
+    "independently confirmed the \u221261% figure the Researcher had reported first. That cumulative consistency "
+    "is what convinced me the handoff model works."
+)
+add(
+    "Plenty went wrong, and fixing it taught me more than anything that went right. The first exchange-rate "
+    "source kept returning HTTP 522 errors, so I replaced it with a more reliable open API. The live chat broke "
+    "with a confusing 'not found' error, and tracing it showed the client was posting to the wrong URL, a fix I "
+    "then verified with a real question. I also renamed the whole project from CryptoNova to Prism and "
+    "regenerated every deliverable, which taught me how quickly a name change ripples through prompts, files and "
+    "reports. The design itself went through several iterations: a plain table became a live ticker, coin logos, "
+    "rank badges, clickable detail panels, gradient titles and a distinct news section."
+)
+add(
+    "The biggest surprise was how much the agent personas shaped output. Different system prompts produced "
+    "genuinely different voices and priorities, even though the agents shared the same codebase and data."
+)
+add(
+    "Given more time, I would run the pipeline again on a different day to show the live figures moving, add "
+    "short-term memory to the chat, and make the news feed resilient to source outages."
 )
 
 add_heading("Conclusion")
@@ -320,10 +337,10 @@ add(
 
 add_heading("References")
 add(
-    "AI usage and attribution. The five-agent pipeline was executed on a free opencode assistant model using "
-    "the system prompts reproduced in Section 2 (pipeline/agent_prompts.py). The live site chat is served by "
-    "Claude (claude-sonnet-4-5) through a Cloudflare Worker, keeping the API key server-side. All AI-generated "
-    "content was reviewed by the author; the Reflection in Section 5 is written by the author in their own words."
+    "AI usage and attribution. The five-agent pipeline ran on a free opencode assistant model using the "
+    "system prompts reproduced in Section 2 (pipeline/agent_prompts.py). The live site chat runs Claude "
+    "(claude-sonnet-4-5) via a Cloudflare Worker, keeping the API key server-side. All generated content was "
+    "reviewed by the author before submission."
 )
 add(
     "European Parliament and Council. (2016) Regulation (EU) 2016/679 on the protection of natural persons with "
