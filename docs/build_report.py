@@ -3,7 +3,7 @@ import os
 import docx
 from docx.shared import Pt
 
-SRC = r"C:\Users\Probook\NCIRL 2025-2026\NCIRL CEAI\CA 3\x25128442_PGDAIBUS_Sydorenko_Nadiya_CEAI_CA2.docx"
+SRC = r"C:\Users\Probook\NCIRL 2025-2026\NCIRL CEAI\CA 3\x25128442_Sydorenko_Nadiya_CEAI_CA3.docx"
 DST = r"C:\Users\Probook\NCIRL 2025-2026\NCIRL CEAI\CA 3\x25128442_Sydorenko_Nadiya_CEAI_CA3.docx"
 
 
@@ -304,6 +304,18 @@ add(
     "didn't, what surprised you, what you learned about multi-agent collaboration, what you would improve with "
     "more time. Evidence: describe at least one iteration (e.g. switching the chat to a Cloudflare worker to "
     "keep the key server-side, or a second pipeline run whose numbers changed because the market moved).]"
+)
+
+add_heading("Conclusion")
+add(
+    "The project set out to build an agentic organisation, not merely describe one. Five specialised agents, "
+    "each with its own system prompt, personality and live-data tools, worked in a fixed pipeline and produced, "
+    "end to end, a research brief, a product concept, a deployed prototype, a go-to-market plan and an executive "
+    "summary. Every stage queried live external data at the moment of use, no credential was committed, and the "
+    "prototype remains reachable on GitHub Pages. The clearest proof that the handoff chain works is cumulative: "
+    "the \u221261% portfolio finding surfaced by the Researcher survived unchanged through design, build and "
+    "marketing, and was independently re-confirmed by the Manager. The pipeline produced results no single agent "
+    "could have produced alone."
 )
 
 add_heading("References")
