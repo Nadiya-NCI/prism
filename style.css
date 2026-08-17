@@ -41,7 +41,12 @@ body {
   background: linear-gradient(135deg, var(--accent1), var(--accent2));
   box-shadow: 0 6px 18px -6px rgba(124, 124, 255, 0.7);
 }
-.brand-text h1 { font-size: 1.2rem; letter-spacing: .4px; }
+.brand-text h1 {
+  font-size: 1.4rem; letter-spacing: .4px; font-weight: 800;
+  background: linear-gradient(90deg, #ffffff 0%, #b3bdff 55%, var(--accent2) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 2px 14px rgba(124, 124, 255, 0.4));
+}
 .tag { color: var(--muted); font-size: .76rem; }
 .status { display: flex; gap: .5rem; flex-wrap: wrap; }
 .pill {
@@ -103,13 +108,15 @@ main { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1.5rem 2.5rem; }
 .card.neg::after { background: linear-gradient(90deg, transparent, var(--red), transparent); }
 @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .4rem; }
+.card-title { display: flex; align-items: center; gap: .55rem; }
+.card-title svg { flex: none; color: var(--accent1); filter: drop-shadow(0 0 10px rgba(108, 124, 255, 0.45)); }
 .card-head h3, .table-head h3 {
   text-transform: none; letter-spacing: -.01em; font-weight: 800;
   background: linear-gradient(90deg, #ffffff 0%, #9fb0ff 55%, var(--accent2) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .card-head h3 { font-size: .98rem; }
-.table-head h3 { font-size: 1.18rem; margin-bottom: .2rem; }
+.table-head h3 { font-size: 1.35rem; margin-bottom: .2rem; }
 .badge {
   font-size: .68rem; padding: .16rem .55rem; border-radius: 999px;
   color: var(--accent1); border: 1px solid rgba(108, 124, 255, 0.4); background: rgba(108, 124, 255, 0.12);
@@ -303,7 +310,7 @@ tr.clickable:hover td { background: rgba(108, 124, 255, 0.08); }
 .news-head { margin-bottom: .3rem; }
 .news-head .card-title { display: flex; align-items: center; gap: .55rem; }
 .news-head .card-title h3 {
-  font-size: 1.45rem; font-weight: 800; letter-spacing: -.01em; text-transform: none; color: var(--text);
+  font-size: 1.35rem; font-weight: 800; letter-spacing: -.01em; text-transform: none; color: var(--text);
   background: linear-gradient(90deg, #ffffff 0%, var(--amber) 58%, #ff8a5c 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
