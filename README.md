@@ -18,7 +18,7 @@ Pipeline: **Researcher → Designer → Maker → Communicator → Manager**
 - CoinGecko (top-10 market snapshot, EUR) — keyless public API
 - Google Sheets published-to-web CSV (user watchlist) — fetched live, keyless
 - Alternative.me Fear & Greed index — keyless public API
-- Frankfurter / ECB exchange rates — keyless public API
+- ExchangeRate-API open endpoint (EUR-based FX) — keyless public API
 
 ## Security model
 
@@ -29,7 +29,7 @@ Pipeline: **Researcher → Designer → Maker → Communicator → Manager**
 ## Run the pipeline (needs your Claude key)
 
 ```
-set ANTHROPIC_API_KEY=sk-ant-...
+set ANTHROPIC_API_KEY=<your key>
 python pipeline\run_pipeline.py --run-label run1
 ```
 
@@ -44,7 +44,7 @@ wrangler secret put ANTHROPIC_API_KEY
 wrangler deploy
 ```
 
-Copy the printed `https://prism.<subdomain>.workers.dev` URL into `site/app.js` (`WORKER_URL`).
+Copy the printed `https://prism.<subdomain>.workers.dev` URL into `app.js` at the repo root (`WORKER_URL`).
 
 ## Publish the site
 
