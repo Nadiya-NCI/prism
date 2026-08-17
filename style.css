@@ -62,8 +62,9 @@ body {
 }
 .hero h2 {
   font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; letter-spacing: -.02em;
-  background: linear-gradient(90deg, #fff, #c6c9ff);
+  background: linear-gradient(92deg, #ffffff 0%, #b3bdff 32%, var(--accent1) 60%, var(--accent2) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 6px 28px rgba(124, 124, 255, 0.3));
 }
 .lede { max-width: 720px; color: var(--muted); margin-top: .8rem; font-size: .98rem; }
 .chips { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 1.1rem; }
@@ -104,7 +105,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1.5rem 2.5rem; }
 .card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .4rem; }
 .card-head h3, .table-head h3 {
   text-transform: none; letter-spacing: -.01em; font-weight: 800;
-  background: linear-gradient(90deg, #ffffff, var(--accent1));
+  background: linear-gradient(90deg, #ffffff 0%, #9fb0ff 55%, var(--accent2) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .card-head h3 { font-size: .98rem; }
@@ -303,7 +304,7 @@ tr.clickable:hover td { background: rgba(108, 124, 255, 0.08); }
 .news-head .card-title { display: flex; align-items: center; gap: .55rem; }
 .news-head .card-title h3 {
   font-size: 1.45rem; font-weight: 800; letter-spacing: -.01em; text-transform: none; color: var(--text);
-  background: linear-gradient(90deg, #ffffff, var(--amber));
+  background: linear-gradient(90deg, #ffffff 0%, var(--amber) 58%, #ff8a5c 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .news-head svg { color: var(--amber); flex: none; width: 22px; height: 22px; filter: drop-shadow(0 0 8px rgba(255, 180, 84, 0.55)); }
