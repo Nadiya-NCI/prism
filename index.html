@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prism — Agentic Crypto Research Copilot</title>
+<title>Prism · Agentic Crypto Research Copilot</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,7 +18,7 @@
   <div class="status">
     <span id="coingecko-status" class="pill">market: …</span>
     <span id="sheet-status" class="pill">watchlist: …</span>
-    <span id="client-time" class="pill">local: —</span>
+    <span id="client-time" class="pill">local: …</span>
     <button id="refresh-btn" class="btn ghost">Refresh data</button>
   </div>
 </header>
@@ -26,7 +26,7 @@
 <section class="hero">
   <h2>See through the noise.</h2>
   <p class="lede">Prism is a crypto research copilot for retail investors. Track the market and your own
-  watchlist in real time, and ask anything — every answer is grounded in the live data you can see.</p>
+  watchlist in real time, and ask anything. Every answer is grounded in the live data you can see.</p>
   <div class="chips">
     <span class="chip live">● Live data · CoinGecko + your watchlist</span>
     <span class="chip">Research support, not financial advice</span>
@@ -40,15 +40,15 @@
   <section class="grid top">
     <div class="card glass" id="mood-card">
       <div class="card-head"><h3>Market mood</h3><span class="badge">live</span></div>
-      <div id="mood" class="big-number">—</div>
+      <div id="mood" class="big-number">…</div>
       <p id="mood-sub" class="muted">computed from live 24h moves of the top 10</p>
       <p class="live-note">snapshot <span id="mood-fetched" class="muted">now</span> · refreshes every 2 min</p>
     </div>
     <div class="card glass" id="portfolio-card">
       <div class="card-head"><h3>Your live portfolio</h3><span class="badge">watchlist</span></div>
-      <div id="portfolio-delta" class="big-number">—</div>
+      <div id="portfolio-delta" class="big-number">…</div>
       <p id="portfolio-sub" class="muted">current value vs cost basis (EUR, top-10 live prices)</p>
-      <p class="live-note">watchlist updated in real time at <span id="sheet-fetched" class="muted">—</span></p>
+      <p class="live-note">watchlist updated in real time at <span id="sheet-fetched" class="muted">…</span></p>
     </div>
   </section>
 
@@ -83,7 +83,7 @@
 
   <section class="card glass">
     <div class="table-head">
-      <h3>Your holdings — live valuation</h3>
+      <h3>Your holdings, live valuation</h3>
       <p class="muted">live prices next to your watchlist allocation and cost basis</p>
     </div>
     <div class="table-wrap">
@@ -97,9 +97,9 @@
         <tfoot>
           <tr>
             <td colspan="3">Total</td>
-            <td id="portfolio-value">—</td>
-            <td id="portfolio-cost">—</td>
-            <td id="portfolio-gain">—</td>
+            <td id="portfolio-value">…</td>
+            <td id="portfolio-cost">…</td>
+            <td id="portfolio-gain">…</td>
             <td></td>
           </tr>
         </tfoot>
@@ -123,7 +123,7 @@
   <section class="card glass">
     <div class="table-head">
       <h3>Chat with the research copilot</h3>
-      <p class="muted">grounded in the live snapshot at <span id="snapshot-at" class="muted">—</span> · research support, never advice</p>
+      <p class="muted">grounded in the live snapshot at <span id="snapshot-at">…</span> · research support, never advice</p>
     </div>
     <div id="chat-log" class="chat-log">
       <div class="msg ai">Hello from Prism. I'm your crypto research copilot. Every answer is grounded in live market data and your watchlist. What would you like to look into?</div>
@@ -139,7 +139,7 @@
 <div id="coin-detail" class="overlay hidden">
   <div class="modal">
     <div class="modal-head">
-      <h3 id="detail-title">—</h3>
+      <h3 id="detail-title">…</h3>
       <button id="close-detail" class="close" aria-label="Close">×</button>
     </div>
     <div id="detail-body" class="detail-body"></div>
@@ -147,8 +147,8 @@
 </div>
 
 <footer>
-  <p>Prism is an AI-assisted research tool. You are chatting with an AI copilot, not a human — it can make mistakes, so verify anything critical before acting.</p>
-  <p>No personal data is collected or stored, and your watchlist is read live and never saved (GDPR data minimisation). AI transparency in line with the EU AI Act (Article 50). Research support only — not financial advice.</p>
+  <p>Prism is an AI-assisted research tool. You are chatting with an AI copilot, not a human. It can make mistakes, so verify anything critical before acting.</p>
+  <p>No personal data is collected or stored, and your watchlist is read live and never saved (GDPR data minimisation). AI transparency in line with the EU AI Act (Article 50). Research support only, not financial advice.</p>
 </footer>
 
 <script src="app.js"></script>
