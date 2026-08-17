@@ -216,13 +216,11 @@ async function fetchNews() {
     list.innerHTML = "";
     data.items.forEach((it, i) => {
       const li = document.createElement("li");
-      if (i === 0) li.className = "featured";
       const a = document.createElement("a");
       a.textContent = it.title;
       a.href = it.link;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
-      li.appendChild(a);
       const meta = document.createElement("span");
       meta.className = "news-meta";
       if (data.source) {
@@ -240,7 +238,18 @@ async function fetchNews() {
           meta.appendChild(s);
         }
       }
-      li.appendChild(meta);
+      if (i === 0) {
+        li.className = "story-lead";
+        const tag = document.createElement("span");
+        tag.className = "tag-top";
+        tag.textContent = "Top story";
+        li.appendChild(tag);
+        li.appendChild(a);
+        li.appendChild(meta);
+      } else {
+        li.appendChild(a);
+        li.appendChild(meta);
+      }
       list.appendChild(li);
     });
   } catch (err) {

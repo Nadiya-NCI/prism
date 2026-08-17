@@ -284,6 +284,42 @@ tr.clickable:hover td { background: rgba(108, 124, 255, 0.08); }
 .src { font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; color: var(--accent1); }
 .news-date { font-size: .74rem; }
 
+.card.news { border-color: rgba(255, 180, 84, 0.16); }
+.card.news::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 180, 84, 0.6), rgba(255, 91, 106, 0.45), transparent);
+}
+.card.news::after {
+  content: "₿"; position: absolute; right: 10px; top: 4px;
+  font-size: 150px; line-height: 1; color: var(--amber); opacity: 0.05;
+  pointer-events: none;
+}
+.card.news { animation-delay: 0s; }
+.news-head { margin-bottom: .3rem; }
+.news-head .card-title { display: flex; align-items: center; gap: .55rem; }
+.news-head svg { color: var(--amber); flex: none; }
+.badge.live-badge {
+  color: var(--amber); border-color: rgba(255, 180, 84, 0.45);
+  background: rgba(255, 180, 84, 0.12);
+}
+
+.news-list li.story-lead {
+  display: block; padding: 1.05rem 1.15rem; margin-bottom: .7rem;
+  border: 1px solid rgba(255, 180, 84, 0.28);
+  background: linear-gradient(135deg, rgba(255, 180, 84, 0.12), rgba(255, 91, 106, 0.06));
+  border-radius: 12px;
+}
+.news-list li.story-lead:hover { background: linear-gradient(135deg, rgba(255, 180, 84, 0.18), rgba(255, 91, 106, 0.09)); }
+.tag-top {
+  display: inline-block; font-size: .64rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em; color: #0a0d17;
+  background: linear-gradient(90deg, var(--amber), #ff8a5c);
+  padding: .22rem .6rem; border-radius: 999px; margin-bottom: .6rem;
+}
+.story-lead a { font-size: 1.06rem; font-weight: 700; line-height: 1.4; }
+.story-lead .news-meta { display: inline-flex; margin-top: .6rem; }
+.news-list li.story-lead a::after { content: " ↗"; opacity: 0; transition: opacity .15s ease; }
+.news-list li.story-lead:hover a::after { opacity: .8; }
+
 button, a, input { transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease; }
 .btn:hover { transform: translateY(-1px); filter: brightness(1.08); }
 .btn.ghost:hover { transform: none; }
