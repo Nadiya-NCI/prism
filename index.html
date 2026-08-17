@@ -23,14 +23,14 @@
 </header>
 
 <section class="hero">
-  <p class="eyebrow">Agentic organisation · Researcher → Designer → Maker → Communicator → Manager</p>
+  <p class="eyebrow">Live crypto research · real-time · honest answers</p>
   <h2>See through the noise.</h2>
-  <p class="lede">Five specialised AI agents collaborate to deliver live-sourced, honest crypto research for retail
-  investors. Every figure on this page is fetched from a live source at the moment you load it — nothing is
-  hardcoded, nothing is advice, and your own watchlist is read live from Google Sheets.</p>
+  <p class="lede">Prism is a research copilot for retail investors. Every figure on this page is fetched in
+  real time the moment you load it, your own watchlist is always in view, and the assistant answers from the
+  data you can actually see. Nothing is hardcoded. Nothing is advice.</p>
   <div class="chips">
-    <span class="chip live">● Live data · CoinGecko + your watchlist</span>
-    <span class="chip">Keyless · zero secrets in code</span>
+    <span class="chip live">● Live market data</span>
+    <span class="chip">Your watchlist, live</span>
     <span class="chip">Research support, not financial advice</span>
   </div>
 </section>
@@ -38,7 +38,7 @@
 <main>
   <section class="grid top">
     <div class="card glass" id="mood-card">
-      <div class="card-head"><h3>Market mood</h3><span class="badge">aut</span></div>
+      <div class="card-head"><h3>Market mood</h3><span class="badge">live</span></div>
       <div id="mood" class="big-number">—</div>
       <p id="mood-sub" class="muted">computed from live 24h moves of the top 10</p>
       <p class="live-note">snapshot <span id="mood-fetched" class="muted">now</span> · refreshes every 2 min</p>
@@ -47,14 +47,14 @@
       <div class="card-head"><h3>Your live portfolio</h3><span class="badge">watchlist</span></div>
       <div id="portfolio-delta" class="big-number">—</div>
       <p id="portfolio-sub" class="muted">current value vs cost basis (EUR, top-10 live prices)</p>
-      <p class="live-note">watchlist read live from Google Sheets at <span id="sheet-fetched" class="muted">—</span></p>
+      <p class="live-note">watchlist updated in real time at <span id="sheet-fetched" class="muted">—</span></p>
     </div>
   </section>
 
   <section class="card glass">
     <div class="table-head">
       <h3>Live market table</h3>
-      <p class="muted">top 10 by market cap · click column headers to sort · fetched from CoinGecko at query time</p>
+      <p class="muted">top 10 by market cap · click column headers to sort · updated in real time on every load</p>
     </div>
     <div class="table-wrap">
       <table>
@@ -80,7 +80,7 @@
   <section class="card glass">
     <div class="table-head">
       <h3>Your holdings — live valuation</h3>
-      <p class="muted">each row priced off live CoinGecko data; allocation and cost basis from your Google Sheet</p>
+      <p class="muted">live prices next to your watchlist allocation and cost basis</p>
     </div>
     <div class="table-wrap">
       <table>
@@ -105,22 +105,8 @@
 
   <section class="card glass">
     <div class="table-head">
-      <h3>The agentic organisation behind this page</h3>
-      <p class="muted">five agents, one unbroken pipeline · each stage's full deliverable feeds the next · work products are recorded in <code>output/free-run/</code> and <code>transcript.json</code></p>
-    </div>
-    <div class="pipeline" id="pipeline">
-      <div class="agent"><span class="agent-role">Researcher</span><span class="agent-name">Vera Vector</span><span class="agent-out">market opportunity brief</span></div>
-      <div class="agent"><span class="agent-role">Designer</span><span class="agent-name">Maya Möbius</span><span class="agent-out">solution concept</span></div>
-      <div class="agent"><span class="agent-role">Maker</span><span class="agent-name">Code Flint</span><span class="agent-out">this very prototype</span></div>
-      <div class="agent"><span class="agent-role">Communicator</span><span class="agent-name">Riley Rhetoric</span><span class="agent-out">go-to-market campaign</span></div>
-      <div class="agent"><span class="agent-role">Manager</span><span class="agent-name">Atlas</span><span class="agent-out">executive summary & KPIs</span></div>
-    </div>
-  </section>
-
-  <section class="card glass">
-    <div class="table-head">
       <h3>Chat with the research copilot</h3>
-      <p class="muted">grounded in the live snapshot at <span id="snapshot-at" class="muted">—</span> · Claude via a Cloudflare Worker (key server-side) · research support, never advice</p>
+      <p class="muted">grounded in the live snapshot at <span id="snapshot-at" class="muted">—</span> · research support, never advice</p>
     </div>
     <div id="chat-log" class="chat-log">
       <div class="msg ai">Hello from Prism. Ask me anything about the live market table or your watchlist — for example, "what does a 7d dip on SOL mean for my holdings?"</div>
@@ -134,12 +120,7 @@
 </main>
 
 <footer>
-  <div class="foot-sources">
-    <span class="chip">CoinGecko</span>
-    <span class="chip">Google Sheets (your watchlist)</span>
-    <span class="chip">Cloudflare Worker → Claude</span>
-  </div>
-  <p>Live data is queried at runtime — nothing cached, nothing hardcoded, no keys committed. Agented pipeline evidence in <code>output/</code>.</p>
+  <p>Prism · live crypto research support. Every figure is fetched in real time; nothing here is financial advice.</p>
 </footer>
 
 <script src="app.js"></script>
