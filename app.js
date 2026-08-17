@@ -314,9 +314,18 @@ async function refreshData() {
 function addMsg(role, text) {
   const d = document.createElement("div");
   d.className = "msg " + role;
-  d.textContent = text;
+  d.textContent = role === "ai" ? cleanText(text) : text;
   $("chat-log").appendChild(d);
   $("chat-log").scrollTop = $("chat-log").scrollHeight;
+}
+
+function cleanText(s) {
+  return String(s)
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/\*([^*]+)\*/g, "$1")
+    .replace(/^#+\s*/gm, "")
+    .replace(/`([^`]*)`/g, "$1")
+    .trim();
 }
 
 $("chat-form").addEventListener("submit", async (e) => {
